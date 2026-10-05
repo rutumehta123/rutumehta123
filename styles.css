@@ -23,6 +23,7 @@ em { font-style: normal; color: var(--orange); }
 .btn--lg { font-size: 18px; }
 .btn--orange { background: var(--orange); border-color: var(--orange); }
 .btn--outline { background: transparent; border-color: var(--orange); color: var(--orange); }
+button.btn { font-family: var(--sans); }
 .btn--blue { background: var(--blue); border-color: var(--blue); }
 
 .stock { position: absolute; right: 12px; bottom: 12px; font-size: 10px; line-height: 12px; color: #fff; text-shadow: 0 2px 4px rgba(255,255,255,.25); }
@@ -89,10 +90,10 @@ em { font-style: normal; color: var(--orange); }
 .plans h2 { margin-bottom: 24px; }
 .plans__tabs { display: flex; justify-content: center; gap: 24px; margin-bottom: 24px; }
 .plans__body { position: relative; display: flex; justify-content: center; }
-.plans__body img { width: 724px; height: auto; object-fit: cover; }
-.plans__details { position: absolute; left: calc(50% + 386px); top: 67px; width: 137px; display: flex; flex-direction: column; gap: 12px; font-weight: 600; line-height: 27px; }
-.plans__title { margin: 0; color: var(--orange); }
-.plans__link { padding: 0; border: 0; background: none; font: inherit; color: var(--blue); text-align: left; cursor: pointer; }
+.plans__body img { width: 724px; height: auto; }
+.plans__details { position: absolute; left: calc(50% + 386px); top: 67px; display: flex; flex-direction: column; gap: 12px; white-space: nowrap; }
+.plans__item { padding: 0; border: 0; background: none; font: 600 18px/27px var(--sans); color: var(--blue); text-align: left; cursor: pointer; }
+.plans__item.is-active { color: var(--orange); cursor: default; }
 
 /* Gallery */
 .gallery { padding: 53px 0; }
@@ -167,3 +168,23 @@ em { font-style: normal; color: var(--orange); }
   .g, .g1, .g3, .g7 { flex: none; height: 240px; }
   .nav__inner .btn { padding: 8px 10px; font-size: 14px; }
 }
+
+/* Modals */
+.modal { width: min(753px, calc(100% - 32px)); padding: 0; border: 1px solid #fff; background: #fff; box-shadow: 0 0 2px rgba(0,0,0,.1); overflow: visible; }
+.modal::backdrop { background: rgba(0,0,0,.45); }
+.modal__card { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 20px 30px 22px; }
+.modal__title { margin: 0; padding-left: 14px; border-left: 4px solid var(--orange-text); font: 700 20px/26px "Nunito Sans", var(--sans); color: var(--blue); }
+.modal__sub { margin: 0; display: flex; flex-direction: column; font-size: 13px; line-height: 19.5px; color: #111; }
+.modal__sub small { font-size: 12px; color: #6e6f70; }
+.field { flex: 1; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field-row { display: flex; gap: 10px; }
+.field label { font-size: 14px; line-height: 18px; font-weight: 700; text-transform: uppercase; color: var(--blue); }
+.field i { font-style: normal; color: #e05252; }
+.field input, .field select { height: 43px; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fafafa; font: 400 14px var(--sans); color: var(--blue); }
+.field input::placeholder { color: rgba(25,30,63,.5); }
+.field input:focus, .field select:focus { outline: 2px solid var(--orange); outline-offset: 0; }
+.field input:user-invalid, .field select:user-invalid { border-color: #e05252; }
+.modal__cta { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.modal__cta small { font-size: 11px; line-height: 16.5px; color: #9ca3af; }
+.modal__close { position: absolute; top: 6px; right: 10px; border: 0; background: none; font-size: 26px; line-height: 1; color: #9ca3af; cursor: pointer; }
+@media (max-width: 560px) { .field-row { flex-direction: column; } .modal__card { padding: 20px 18px; } }
