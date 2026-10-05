@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,15 @@
       <a href="#gallery">Gallery</a>
       <a href="#connectivity">Connectivity</a>
     </nav>
-    <button class="btn btn--orange" type="button" data-modal="brochure">Download Brochure</button>
+    <div class="nav__actions">
+      <button class="nav__text-btn" type="button" data-modal="brochure" data-cta="nav-brochure">Brochure ↓</button>
+      <button class="btn btn--orange" type="button" data-modal="visit" data-cta="nav-visit">Book a Site Visit</button>
+      <button class="nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mnav" id="mnav" hidden>
+    <a href="#about">About</a><a href="#amenities">Amenities</a><a href="#floor-plans">Floor Plans</a><a href="#gallery">Gallery</a><a href="#connectivity">Connectivity</a>
+    <button class="btn btn--orange btn--block" type="button" data-modal="brochure" data-cta="menu-brochure">Get Brochure &amp; Price Sheet</button>
   </div>
 </header>
 
@@ -43,10 +51,10 @@
           <h1 class="reveal" style="--i:1">One Step Closer to Your <em>Dream Home</em> in Bandra East</h1>
           <p class="copy__sub reveal" style="--i:2">Thoughtfully designed 1 &amp; 2 BHK residences by Shivalik Ventures, building better lives across Mumbai since the early 80s.</p>
           <div class="copy__ctas reveal" style="--i:3">
-            <button class="btn btn--orange btn--lg btn--glow" type="button" data-modal="visit">Book a Site Visit →</button>
-            <button class="link-underline" type="button" data-modal="brochure">Download Brochure ↓</button>
+            <button class="btn btn--orange btn--lg btn--glow" type="button" data-modal="visit" data-cta="hero-visit">Book a Site Visit →</button>
+            <button class="link-underline" type="button" data-modal="brochure" data-cta="hero-brochure">Download Brochure ↓</button>
           </div>
-          <div class="chips reveal" style="--i:4"><span><b>1 BHK</b> ₹99 Lakh*</span><span><b>2 BHK</b> ₹1.99 Cr*</span></div>
+          <div class="chips reveal" style="--i:4"><button type="button" data-modal="brochure" data-cfg="1 BHK" data-cta="hero-chip-1"><b>1 BHK</b> ₹99 Lakh*</button><button type="button" data-modal="brochure" data-cfg="2 BHK" data-cta="hero-chip-2"><b>2 BHK</b> ₹1.99 Cr*</button></div>
         </div>
       </div>
 
@@ -73,7 +81,7 @@
             <div class="card__col"><b>1 BHK</b><strong>₹99 Lakh*</strong><small>All inclusive*</small></div>
             <div class="card__col"><b>2 BHK</b><strong>₹1.99 Crore*</strong><small>All inclusive*</small></div>
             <div class="card__col card__col--cta">
-              <a class="btn btn--orange" href="#floor-plans">Explore floor plans →</a>
+              <a class="btn btn--orange" href="#floor-plans" data-cta="scene-plans">Explore floor plans →</a>
               <small>MahaRERA P51800014036</small>
             </div>
           </div>
@@ -83,6 +91,15 @@
 
       <a class="scroll-cue" data-layer="cue" href="#about" aria-label="Scroll to explore"><span class="mouse"></span><span>Scroll</span></a>
       <span class="stock">Artist impression</span>
+    </div>
+  </section>
+
+  <section class="trust" aria-label="Project highlights">
+    <div class="container trust__grid">
+      <div class="trust__item"><strong><span data-count="40">40</span>+ years</strong><span>Building in Mumbai since the early 80s</span></div>
+      <div class="trust__item"><strong>1 &amp; 2 BHK</strong><span>From ₹99 Lakh*, all inclusive</span></div>
+      <div class="trust__item"><strong>MahaRERA</strong><span>Registered · P51800014036</span></div>
+      <div class="trust__item"><strong>Bandra East</strong><span>Off the Western Express Highway</span></div>
     </div>
   </section>
 
@@ -125,18 +142,27 @@
         <button class="btn btn--outline" type="button" role="tab" aria-selected="false" data-bhk="2">2 BHK</button>
       </div>
       <div class="plans__body">
-        <img id="plan-img" src="assets/floor-plan-1bhk.png" alt="1 BHK floor plan" width="724" height="515">
-        <div class="plans__details">
-          <button type="button" class="plans__item is-active" id="plan-floor" data-view="floor">1 BHK Floor Plan</button>
-          <button type="button" class="plans__item" id="plan-unit" data-view="unit">1 BHK Unit Plan</button>
-        </div>
+        <div class="plan-frame"><img id="plan-img" src="assets/floor-plan-1bhk.png" alt="1 BHK floor plan" width="724" height="515"></div>
+        <aside class="plan-card">
+          <div class="plans__details">
+            <button type="button" class="plans__item is-active" id="plan-floor" data-view="floor">1 BHK Floor Plan</button>
+            <button type="button" class="plans__item" id="plan-unit" data-view="unit">1 BHK Unit Plan</button>
+          </div>
+          <dl class="plan-card__facts">
+            <div><dt>Price</dt><dd id="plan-price">₹99 Lakh*</dd></div>
+            <div><dt>Carpet area</dt><dd id="plan-area">322 sq. ft.</dd></div>
+          </dl>
+          <button class="btn btn--orange btn--block" type="button" data-modal="visit" data-plan-cta data-cta="plan-visit">Book a Site Visit</button>
+          <button class="btn btn--outline btn--block" type="button" data-modal="brochure" data-plan-cta data-cta="plan-brochure">Get This Plan &amp; Price Sheet</button>
+          <small class="plan-card__note">*All inclusive. Plans are indicative.</small>
+        </aside>
       </div>
     </div>
   </section>
 
   <section class="gallery" id="gallery">
     <div class="container">
-      <p class="eyebrow">Floor Plans &amp; Configurations</p>
+      <p class="eyebrow">Gallery</p>
       <h2>Project Gallery</h2>
       <div class="bento">
         <div class="bento__row bento__row--1">
@@ -153,6 +179,16 @@
           <figure class="g g7"><img src="assets/gallery-7.png" alt="" loading="lazy"><span class="stock">Stock Image*</span></figure>
           <figure class="g g8"><img src="assets/gallery-8.png" alt="" loading="lazy"><span class="stock">Stock Image*</span></figure>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Book a visit">
+    <div class="container band__inner">
+      <p class="band__text"><strong>Like what you see?</strong> It looks even better in person.</p>
+      <div class="band__ctas">
+        <button class="btn btn--orange" type="button" data-modal="visit" data-cta="band-visit">Book a Site Visit</button>
+        <a class="btn btn--ghost-light" href="https://wa.me/918291969925?text=Hi%2C%20I%27m%20interested%20in%20Gulmohar%20Avenue%2C%20Bandra%20East." target="_blank" rel="noopener" data-cta="band-whatsapp">WhatsApp Us</a>
       </div>
     </div>
   </section>
@@ -184,7 +220,49 @@
           <ul><li>Jio World Drive (BKC) ⭐ ~1.5 km</li><li>Jio World Plaza (BKC) ~1.5 km</li><li>Phoenix Marketcity (Kurla) ~4–5 km</li><li>Linking Road (Bandra West) ~4–6 km</li></ul>
         </details>
       </div>
-      <button class="btn btn--blue btn--lg" type="button" data-modal="visit">Schedule A Visit →</button>
+      <button class="btn btn--blue btn--lg" type="button" data-modal="visit" data-cta="connect-visit">Schedule A Visit →</button>
+    </div>
+  </section>
+  <section class="lead" id="enquire" aria-labelledby="lead-title">
+    <div class="container lead__grid">
+      <div class="lead__copy">
+        <p class="eyebrow">Book a site visit</p>
+        <h2 id="lead-title">See your new home <em>in person</em></h2>
+        <p>Leave your number and our advisor will call you within 30 minutes during office hours (11 AM – 6 PM).</p>
+        <ul class="lead__list">
+          <li>All-inclusive price sheet for your configuration</li>
+          <li>Floor plans and a guided walkthrough of the project</li>
+          <li>Straight answers, no obligation</li>
+        </ul>
+        <div class="lead__direct">
+          <a class="btn btn--ghost-light" href="tel:+918291969925" data-cta="lead-call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.95 21C17.87 21 15.81 20.55 13.78 19.64C11.74 18.73 9.89 17.44 8.23 15.78C6.56 14.11 5.27 12.26 4.36 10.23C3.46 8.19 3 6.13 3 4.05C3 3.75 3.1 3.5 3.3 3.3C3.5 3.1 3.75 3 4.05 3H8.1C8.33 3 8.54 3.08 8.73 3.24C8.91 3.4 9.02 3.58 9.05 3.8L9.7 7.3C9.73 7.57 9.73 7.79 9.68 7.98C9.63 8.16 9.53 8.32 9.4 8.45L6.98 10.9C7.31 11.52 7.7 12.11 8.16 12.69C8.62 13.26 9.12 13.82 9.68 14.35C10.19 14.87 10.73 15.35 11.3 15.79C11.87 16.23 12.47 16.63 13.1 17L15.45 14.65C15.6 14.5 15.8 14.39 16.04 14.31C16.28 14.24 16.52 14.22 16.75 14.25L20.2 14.95C20.43 15.02 20.63 15.14 20.78 15.31C20.93 15.49 21 15.68 21 15.9V19.95C21 20.25 20.9 20.5 20.7 20.7C20.5 20.9 20.25 21 19.95 21Z"/></svg>Call +91 82919 69925</a>
+          <a class="btn btn--ghost-light" href="https://wa.me/918291969925?text=Hi%2C%20I%27m%20interested%20in%20Gulmohar%20Avenue%2C%20Bandra%20East." target="_blank" rel="noopener" data-cta="lead-whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
+        </div>
+      </div>
+      <div class="lead__card">
+        <form class="lead-form" data-kind="visit" novalidate>
+    <div class="lead-form__fields">
+      <div class="field"><label for="l-name">Full name</label><input id="l-name" name="name" autocomplete="name" placeholder="Your name" required minlength="2"><small class="field__err" aria-live="polite"></small></div>
+      <div class="field"><label for="l-mobile">Mobile number</label><div class="phone"><span aria-hidden="true">+91</span><input id="l-mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile number" maxlength="16" required></div><small class="field__err" aria-live="polite"></small></div>
+      <fieldset class="field field--chips"><legend>I'm interested in</legend>
+        <div class="choice">
+          <label><input type="radio" name="configuration" value="1 BHK" required><span>1 BHK</span></label>
+          <label><input type="radio" name="configuration" value="2 BHK"><span>2 BHK</span></label>
+          <label><input type="radio" name="configuration" value="Not sure yet"><span>Not sure yet</span></label>
+        </div><small class="field__err" aria-live="polite"></small>
+      </fieldset>
+      <button class="btn btn--orange btn--lg btn--block" type="submit">Book My Site Visit <span class="arr" aria-hidden="true">→</span></button>
+      <p class="lead-form__note"><span aria-hidden="true">🔒</span> Shared only with Shivalik Ventures. No spam, ever.</p>
+    </div>
+    <div class="lead-form__done" hidden tabindex="-1">
+      <svg class="tick" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+      <h4>Thank you, <span data-name></span>!</h4>
+      <p data-done-msg></p>
+      <a class="btn btn--wa-solid" data-wa-again href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Open WhatsApp again</a>
+      <p class="lead-form__alt">Prefer to talk now? <a href="tel:+918291969925" data-cta="done-call">Call +91 82919 69925</a></p>
+    </div>
+  </form>
+      </div>
     </div>
   </section>
 </main>
@@ -198,7 +276,7 @@
     </address>
     <div class="contact__row">
       <a href="mailto:sales@shivalikventures.com"><img src="assets/email-icon.svg" alt="" width="24" height="24">sales@shivalikventures.com</a>
-      <a href="tel:+918291969925"><img src="assets/call-icon.svg" alt="" width="24" height="24">+91 8291969925</a>
+      <a href="tel:+918291969925" data-cta="footer-call"><img src="assets/call-icon.svg" alt="" width="24" height="24">+91 82919 69925</a>
     </div>
     <div class="social">
       <a href="#" aria-label="Instagram"><img src="assets/instagram.svg" alt="" width="22" height="22"></a>
@@ -215,45 +293,82 @@
   </div>
 </footer>
 
-<button class="enquire btn btn--orange" type="button" data-modal="visit">Enquire Now</button>
+<button class="enquire btn btn--orange" type="button" data-modal="visit" data-cta="side-tab">Enquire Now</button>
 
 
 <dialog class="modal" id="modal-visit" aria-labelledby="visit-title">
-  <form class="modal__card" method="dialog" data-kind="visit" novalidate>
-    <h3 class="modal__title" id="visit-title">Book a Site Visit</h3>
-    <p class="modal__sub"><span>Our advisor will call you within 30 minutes</span><small>Office hours (11 AM – 6 PM)</small></p>
-    <div class="field"><label for="v-name">Full Name <i>*</i></label><input id="v-name" name="name" placeholder="Rahul Sharma" autocomplete="name" required></div>
-    <div class="field-row">
-      <div class="field"><label for="v-mobile">Mobile <i>*</i></label><input id="v-mobile" name="mobile" type="tel" inputmode="numeric" placeholder="98XXXXXXXX" autocomplete="tel-national" pattern="[0-9]{10}" required></div>
-      <div class="field"><label for="v-email">Email ID</label><input id="v-email" name="email" type="email" placeholder="you@gmail.com" autocomplete="email"></div>
-    </div>
-    <div class="field"><label for="v-cfg">Configuration <i>*</i></label>
-      <select id="v-cfg" name="configuration" required><option value="" selected disabled></option><option>1 BHK</option><option>2 BHK</option></select></div>
-    <div class="modal__cta"><button class="btn btn--orange" type="submit">Enquire Now →</button><small>🔒 Your information is safe with us. No spam.</small></div>
+  <div class="modal__card">
     <button class="modal__close" type="button" aria-label="Close" data-close>×</button>
+    <h3 class="modal__title" id="visit-title">Book a Site Visit</h3>
+    <p class="modal__sub">Our advisor will call you within 30 minutes · Office hours 11 AM – 6 PM</p>
+    <form class="lead-form" data-kind="visit" novalidate>
+    <div class="lead-form__fields">
+      <div class="field"><label for="v-name">Full name</label><input id="v-name" name="name" autocomplete="name" placeholder="Your name" required minlength="2"><small class="field__err" aria-live="polite"></small></div>
+      <div class="field"><label for="v-mobile">Mobile number</label><div class="phone"><span aria-hidden="true">+91</span><input id="v-mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile number" maxlength="16" required></div><small class="field__err" aria-live="polite"></small></div>
+      <fieldset class="field field--chips"><legend>I'm interested in</legend>
+        <div class="choice">
+          <label><input type="radio" name="configuration" value="1 BHK" required><span>1 BHK</span></label>
+          <label><input type="radio" name="configuration" value="2 BHK"><span>2 BHK</span></label>
+          <label><input type="radio" name="configuration" value="Not sure yet"><span>Not sure yet</span></label>
+        </div><small class="field__err" aria-live="polite"></small>
+      </fieldset>
+      <button class="btn btn--orange btn--lg btn--block" type="submit">Book My Site Visit <span class="arr" aria-hidden="true">→</span></button>
+      <p class="lead-form__note"><span aria-hidden="true">🔒</span> Shared only with Shivalik Ventures. No spam, ever.</p>
+    </div>
+    <div class="lead-form__done" hidden tabindex="-1">
+      <svg class="tick" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+      <h4>Thank you, <span data-name></span>!</h4>
+      <p data-done-msg></p>
+      <a class="btn btn--wa-solid" data-wa-again href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Open WhatsApp again</a>
+      <p class="lead-form__alt">Prefer to talk now? <a href="tel:+918291969925" data-cta="done-call">Call +91 82919 69925</a></p>
+    </div>
   </form>
+  </div>
 </dialog>
 
 <dialog class="modal" id="modal-brochure" aria-labelledby="brochure-title">
-  <form class="modal__card" method="dialog" data-kind="brochure" novalidate>
-    <h3 class="modal__title" id="brochure-title">Download Brochure</h3>
-    <div class="field"><label for="b-name">Full Name <i>*</i></label><input id="b-name" name="name" placeholder="Rahul Sharma" autocomplete="name" required></div>
-    <div class="field-row">
-      <div class="field"><label for="b-mobile">Mobile <i>*</i></label><input id="b-mobile" name="mobile" type="tel" inputmode="numeric" placeholder="98XXXXXXXX" autocomplete="tel-national" pattern="[0-9]{10}" required></div>
-      <div class="field"><label for="b-email">Email ID</label><input id="b-email" name="email" type="email" placeholder="you@gmail.com" autocomplete="email"></div>
-    </div>
-    <div class="field"><label for="b-cfg">Configuration <i>*</i></label>
-      <select id="b-cfg" name="configuration" required><option value="" selected disabled></option><option>1 BHK</option><option>2 BHK</option></select></div>
-    <div class="modal__cta"><button class="btn btn--orange" type="submit">Get Brochure →</button><small>🔒 Your information is safe with us. No spam.</small></div>
+  <div class="modal__card">
     <button class="modal__close" type="button" aria-label="Close" data-close>×</button>
+    <h3 class="modal__title" id="brochure-title">Get the Brochure &amp; Price Sheet</h3>
+    <p class="modal__sub">Brochure, floor plans and all-inclusive prices, sent to your WhatsApp.</p>
+    <form class="lead-form" data-kind="brochure" novalidate>
+    <div class="lead-form__fields">
+      <div class="field"><label for="b-name">Full name</label><input id="b-name" name="name" autocomplete="name" placeholder="Your name" required minlength="2"><small class="field__err" aria-live="polite"></small></div>
+      <div class="field"><label for="b-mobile">Mobile number</label><div class="phone"><span aria-hidden="true">+91</span><input id="b-mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile number" maxlength="16" required></div><small class="field__err" aria-live="polite"></small></div>
+      <div class="field"><label for="b-email">Email <span class="opt">(optional)</span></label><input id="b-email" name="email" type="email" autocomplete="email" placeholder="you@example.com"><small class="field__err" aria-live="polite"></small></div>
+      <fieldset class="field field--chips"><legend>I'm interested in</legend>
+        <div class="choice">
+          <label><input type="radio" name="configuration" value="1 BHK" required><span>1 BHK</span></label>
+          <label><input type="radio" name="configuration" value="2 BHK"><span>2 BHK</span></label>
+          <label><input type="radio" name="configuration" value="Not sure yet"><span>Not sure yet</span></label>
+        </div><small class="field__err" aria-live="polite"></small>
+      </fieldset>
+      <button class="btn btn--orange btn--lg btn--block" type="submit">Send Me the Brochure <span class="arr" aria-hidden="true">→</span></button>
+      <p class="lead-form__note"><span aria-hidden="true">🔒</span> Shared only with Shivalik Ventures. No spam, ever.</p>
+    </div>
+    <div class="lead-form__done" hidden tabindex="-1">
+      <svg class="tick" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+      <h4>Thank you, <span data-name></span>!</h4>
+      <p data-done-msg></p>
+      <a class="btn btn--wa-solid" data-wa-again href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Open WhatsApp again</a>
+      <p class="lead-form__alt">Prefer to talk now? <a href="tel:+918291969925" data-cta="done-call">Call +91 82919 69925</a></p>
+    </div>
   </form>
+  </div>
 </dialog>
+
+<aside class="nudge" hidden aria-label="Price sheet offer">
+  <button class="nudge__close" type="button" aria-label="Dismiss">×</button>
+  <strong>Want the full price sheet?</strong>
+  <span>1 &amp; 2 BHK, all-inclusive pricing and floor plans on WhatsApp.</span>
+  <button class="btn btn--orange" type="button" data-modal="brochure" data-cta="nudge">Send it to me</button>
+</aside>
 
 
 <nav class="mbar" aria-label="Quick actions">
-  <a class="btn btn--outline" href="tel:+918291969925"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.95 21C17.87 21 15.81 20.55 13.78 19.64C11.74 18.73 9.89 17.44 8.23 15.78C6.56 14.11 5.27 12.26 4.36 10.23C3.46 8.19 3 6.13 3 4.05C3 3.75 3.1 3.5 3.3 3.3C3.5 3.1 3.75 3 4.05 3H8.1C8.33 3 8.54 3.08 8.73 3.24C8.91 3.4 9.02 3.58 9.05 3.8L9.7 7.3C9.73 7.57 9.73 7.79 9.68 7.98C9.63 8.16 9.53 8.32 9.4 8.45L6.98 10.9C7.31 11.52 7.7 12.11 8.16 12.69C8.62 13.26 9.12 13.82 9.68 14.35C10.19 14.87 10.73 15.35 11.3 15.79C11.87 16.23 12.47 16.63 13.1 17L15.45 14.65C15.6 14.5 15.8 14.39 16.04 14.31C16.28 14.24 16.52 14.22 16.75 14.25L20.2 14.95C20.43 15.02 20.63 15.14 20.78 15.31C20.93 15.49 21 15.68 21 15.9V19.95C21 20.25 20.9 20.5 20.7 20.7C20.5 20.9 20.25 21 19.95 21Z"/></svg>Call</a>
-  <a class="btn btn--outline btn--wa" href="https://wa.me/918291969925" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
-  <button class="btn btn--orange" type="button" data-modal="visit">Book a Visit</button>
+  <a class="btn btn--outline" href="tel:+918291969925" data-cta="mbar-call"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.95 21C17.87 21 15.81 20.55 13.78 19.64C11.74 18.73 9.89 17.44 8.23 15.78C6.56 14.11 5.27 12.26 4.36 10.23C3.46 8.19 3 6.13 3 4.05C3 3.75 3.1 3.5 3.3 3.3C3.5 3.1 3.75 3 4.05 3H8.1C8.33 3 8.54 3.08 8.73 3.24C8.91 3.4 9.02 3.58 9.05 3.8L9.7 7.3C9.73 7.57 9.73 7.79 9.68 7.98C9.63 8.16 9.53 8.32 9.4 8.45L6.98 10.9C7.31 11.52 7.7 12.11 8.16 12.69C8.62 13.26 9.12 13.82 9.68 14.35C10.19 14.87 10.73 15.35 11.3 15.79C11.87 16.23 12.47 16.63 13.1 17L15.45 14.65C15.6 14.5 15.8 14.39 16.04 14.31C16.28 14.24 16.52 14.22 16.75 14.25L20.2 14.95C20.43 15.02 20.63 15.14 20.78 15.31C20.93 15.49 21 15.68 21 15.9V19.95C21 20.25 20.9 20.5 20.7 20.7C20.5 20.9 20.25 21 19.95 21Z"/></svg>Call</a>
+  <a class="btn btn--outline btn--wa" href="https://wa.me/918291969925?text=Hi%2C%20I%27m%20interested%20in%20Gulmohar%20Avenue%2C%20Bandra%20East." data-cta="mbar-whatsapp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>WhatsApp</a>
+  <button class="btn btn--orange" type="button" data-modal="visit" data-cta="mbar-visit">Book a Visit</button>
 </nav>
 
 <script src="main.js"></script>
