@@ -30,30 +30,60 @@
 </header>
 
 <main id="top">
-  <section class="hero">
-    <div class="hero__img" data-parallax="0.22" data-depth="14"><img src="assets/hero.jpg" alt="Gulmohar Avenue towers at dusk" fetchpriority="high"></div>
-    <div class="hero__ghost" data-parallax="-0.1" data-depth="-10" aria-hidden="true">GULMOHAR</div>
-    <div class="hero__content" data-parallax="0.06">
-      <p class="hero__eyebrow reveal" style="--i:0">Bandra East, Mumbai</p>
-      <h1 class="reveal" style="--i:1">One Step Closer to Your <em>Dream Home</em> in Bandra East</h1>
-      <p class="hero__sub reveal" style="--i:2">Thoughtfully designed 1 &amp; 2 BHK residences by Shivalik Ventures, building better lives across Mumbai since the early 80s.</p>
-      <div class="hero__ctas reveal" style="--i:3">
-        <button class="btn btn--orange btn--lg btn--glow" type="button" data-modal="visit">Book a Site Visit →</button>
-        <button class="hero__link" type="button" data-modal="brochure">Download Brochure ↓</button>
+  <section class="scene" id="top" aria-label="Gulmohar Avenue, Bandra East">
+    <div class="scene__stage">
+      <div class="layer layer--sky" data-layer="sky"><img src="assets/hero-sky.jpg" alt="" fetchpriority="high"></div>
+      <div class="layer layer--ghost" data-layer="ghost" aria-hidden="true"><span>GULMOHAR</span></div>
+      <div class="layer layer--building" data-layer="building"><img src="assets/hero-building.webp" alt="Gulmohar Avenue towers at dusk" fetchpriority="high"></div>
+      <div class="layer layer--shade" aria-hidden="true"></div>
+
+      <div class="layer layer--copy" data-layer="copy1">
+        <div class="copy">
+          <p class="eyebrow-line reveal" style="--i:0">Bandra East, Mumbai</p>
+          <h1 class="reveal" style="--i:1">One Step Closer to Your <em>Dream Home</em> in Bandra East</h1>
+          <p class="copy__sub reveal" style="--i:2">Thoughtfully designed 1 &amp; 2 BHK residences by Shivalik Ventures, building better lives across Mumbai since the early 80s.</p>
+          <div class="copy__ctas reveal" style="--i:3">
+            <button class="btn btn--orange btn--lg btn--glow" type="button" data-modal="visit">Book a Site Visit →</button>
+            <button class="link-underline" type="button" data-modal="brochure">Download Brochure ↓</button>
+          </div>
+          <div class="chips reveal" style="--i:4"><span><b>1 BHK</b> ₹99 Lakh*</span><span><b>2 BHK</b> ₹1.99 Cr*</span></div>
+        </div>
       </div>
-    </div>
-    <div class="hero__bar reveal" style="--i:5">
-      <div class="hero__price"><b>1 BHK</b><strong>₹99 Lakh*</strong><small>All inclusive*</small></div>
-      <span class="hero__rule" aria-hidden="true"></span>
-      <div class="hero__price"><b>2 BHK</b><strong>₹1.99 Crore*</strong><small>All inclusive*</small></div>
-      <span class="hero__rule" aria-hidden="true"></span>
-      <div class="hero__rera">
-        <img src="assets/rera-qr.png" alt="MahaRERA QR code" width="62" height="62">
-        <div><strong>MahaRERA Registered</strong><span>P51800014036</span><br><small>Scan to verify</small></div>
+
+      <div class="layer layer--bar" data-layer="bar">
+        <div class="glass glass--bar reveal" style="--i:5">
+          <div class="price"><b>1 BHK</b><strong>₹99 Lakh*</strong><small>All inclusive*</small></div>
+          <span class="rule" aria-hidden="true"></span>
+          <div class="price"><b>2 BHK</b><strong>₹1.99 Crore*</strong><small>All inclusive*</small></div>
+          <span class="rule" aria-hidden="true"></span>
+          <div class="rera"><img src="assets/rera-qr.png" alt="MahaRERA QR code" width="62" height="62"><div><strong>MahaRERA Registered</strong><span>P51800014036</span><small>Scan to verify</small></div></div>
+        </div>
       </div>
-      <a class="hero__cue" href="#about" aria-label="Scroll to explore">↓</a>
+
+      <div class="layer layer--curtain" data-layer="curtain" aria-hidden="true"></div>
+
+      <div class="layer layer--copy2" data-layer="copy2">
+        <span class="chapter" data-layer="chapter" aria-hidden="true">01</span>
+        <div class="copy2__head" data-layer="head">
+          <h2>Gulmohar Avenue</h2>
+          <p>1 &amp; 2 BHK residences in Bandra East</p>
+        </div>
+        <div class="glass glass--card" data-layer="card">
+          <div class="card__inner" data-layer="cardinner">
+            <div class="card__col"><b>1 BHK</b><strong>₹99 Lakh*</strong><small>All inclusive*</small></div>
+            <div class="card__col"><b>2 BHK</b><strong>₹1.99 Crore*</strong><small>All inclusive*</small></div>
+            <div class="card__col card__col--cta">
+              <a class="btn btn--orange" href="#floor-plans">Explore floor plans →</a>
+              <small>MahaRERA P51800014036</small>
+            </div>
+          </div>
+          <span class="card__play" data-layer="cardicon" aria-hidden="true">▸</span>
+        </div>
+      </div>
+
+      <a class="scroll-cue" data-layer="cue" href="#about" aria-label="Scroll to explore"><span class="mouse"></span><span>Scroll</span></a>
+      <span class="stock">Artist impression</span>
     </div>
-    <span class="stock">Artist impression</span>
   </section>
 
   <section class="about" id="about">

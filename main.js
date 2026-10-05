@@ -60,40 +60,82 @@ Object.values(dialogs).forEach((dlg) => {
   });
 });
 
-// ---- Hero parallax ---------------------------------------------------------
-// Layers marked data-parallax="<speed>" drift with the scroll at different rates
-// (the building lags behind the page, the ghost wordmark rises faster), and
-// data-depth="<px>" adds a small pointer-follow shift for depth. Skipped for
-// reduced-motion users; only runs while the hero is on screen.
+// ---- Hero scene: pinned, scroll-scrubbed parallax ---------------------------
+// The scene is 300+ viewport heights tall with a sticky stage inside. Scroll progress p (0 to 1)
+// drives every layer directly (no CSS transitions), so it scrubs both ways like the Figma
+// Smart Animate reference: sky, ghost wordmark, building cutout and copy move at different
+// speeds, a navy curtain rises, then the "Gulmohar Avenue" heading and price card take over.
 (() => {
-  const hero = document.querySelector('.hero');
-  if (!hero || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const layers = [...hero.querySelectorAll('[data-parallax]')];
-  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  let px = 0, py = 0, queued = false, visible = true;
+  const scene = document.querySelector('.scene');
+  const nav = document.querySelector('.nav');
+  if (!scene) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (k) => scene.querySelector(`[data-layer="${k}"]`);
+  const L = Object.fromEntries(['sky','ghost','building','copy1','bar','curtain','copy2','chapter','head','card','cardinner','cardicon','cue']
+    .map((k) => [k, $(k)]));
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = (t) => 1 - Math.pow(1 - t, 3);                // easeOutCubic
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const seg = (p, a, b) => clamp((p - a) / (b - a));         // 0 to 1 between a and b
+  let vh = innerHeight, vw = innerWidth, top = 0, span = 1, queued = false, mx = 0, my = 0;
 
-  const paint = () => {
-    queued = false;
-    if (!visible) return;
-    const y = window.scrollY;
-    for (const el of layers) {
-      const speed = parseFloat(el.dataset.parallax) || 0;
-      const depth = parseFloat(el.dataset.depth) || 0;
-      el.style.transform = `translate3d(${(px * depth).toFixed(2)}px, ${(y * speed + py * depth).toFixed(2)}px, 0)`;
-    }
+  const measure = () => {
+    vh = innerHeight; vw = innerWidth;
+    top = scene.getBoundingClientRect().top + scrollY;
+    span = Math.max(1, scene.offsetHeight - vh);
   };
-  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(paint); } };
+  const set = (el, y = 0, s = 1, o = 1, x = 0) => {
+    if (!el) return;
+    el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) scale(${s.toFixed(4)})`;
+    el.style.opacity = o.toFixed(3);
+  };
+  const mobile = () => vw <= 1100;
 
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) queue(); }).observe(hero);
-  window.addEventListener('scroll', queue, { passive: true });
-  if (finePointer) {
-    hero.addEventListener('pointermove', (e) => {
-      const r = hero.getBoundingClientRect();
-      px = ((e.clientX - r.left) / r.width - 0.5) * 2;
-      py = ((e.clientY - r.top) / r.height - 0.5) * 2;
-      queue();
-    });
-    hero.addEventListener('pointerleave', () => { px = py = 0; queue(); });
+  const render = () => {
+    queued = false;
+    const y = scrollY;
+    nav?.classList.toggle('is-over-hero', y < top + span + vh - 100);
+    if (reduce) return;
+    const p = clamp((y - top) / span);
+    const a = ease(seg(p, 0, 0.55));          // phase 1: parallax + curtain
+    const c = ease(seg(p, 0.08, 0.52));       // curtain rise
+    const b = seg(p, 0.40, 0.95);             // phase 2: heading + card
+    const m = mobile();
+
+    set(L.sky,      -a * 0.07 * vh,  1 + a * 0.10, 1, mx * -6);
+    set(L.ghost,    -a * (m ? 0.30 : 0.55) * vh, 1 + a * 0.05, 1 - seg(a, 0.35, 0.95), mx * 14);
+    set(L.building, -a * (m ? 0.16 : 0.22) * vh, 1 + a * 0.07, 1 - seg(p, 0.82, 1) * 0.35, mx * 8);
+    set(L.copy1,    -a * 0.30 * vh, 1, 1 - seg(a, 0.05, 0.55));
+    set(L.bar,       a * 0.10 * vh, 1, 1 - seg(a, 0.0, 0.45));
+    set(L.cue,       0, 1, 1 - seg(p, 0, 0.08));
+    // curtain slides up from below the fold
+    const ch = L.curtain.offsetHeight;
+    set(L.curtain, (1 - c) * (ch + 120), 1, 1);
+    // phase 2
+    const hy = (1 - ease(seg(b, 0, 0.45))) * 40;
+    set(L.head, hy, 1, ease(seg(b, 0, 0.4)));
+    set(L.chapter, (1 - ease(seg(b, 0.2, 0.9))) * 120, 1, ease(seg(b, 0.2, 0.7)), 0);
+    // card: small pill that expands to the full price panel
+    const g = ease(seg(b, 0.35, 0.85));
+    const full = Math.min(780, vw * 0.9);
+    const fullH = m ? 236 : 170;
+    const card = L.card;
+    card.style.width = `${lerp(120, full, g).toFixed(1)}px`;
+    card.style.height = `${lerp(44, fullH, g).toFixed(1)}px`;
+    card.style.opacity = ease(seg(b, 0.25, 0.5)).toFixed(3);
+    L.cardinner.style.opacity = seg(g, 0.55, 1).toFixed(3);
+    L.cardicon.style.opacity = (1 - seg(g, 0, 0.35)).toFixed(3);
+    L.copy2.style.pointerEvents = b > 0.9 ? 'auto' : 'none';
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(render); } };
+
+  measure(); render();
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', () => { measure(); queue(); });
+  addEventListener('load', () => { measure(); queue(); });
+  // gentle pointer-follow depth (desktop only, only while the hero is on screen)
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    scene.addEventListener('pointermove', (e) => { mx = (e.clientX / vw - 0.5) * 2; my = (e.clientY / vh - 0.5) * 2; queue(); });
+    scene.addEventListener('pointerleave', () => { mx = my = 0; queue(); });
   }
-  queue();
 })();
