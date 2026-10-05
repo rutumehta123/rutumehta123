@@ -59,3 +59,41 @@ Object.values(dialogs).forEach((dlg) => {
     dlg.close();
   });
 });
+
+// ---- Hero parallax ---------------------------------------------------------
+// Layers marked data-parallax="<speed>" drift with the scroll at different rates
+// (the building lags behind the page, the ghost wordmark rises faster), and
+// data-depth="<px>" adds a small pointer-follow shift for depth. Skipped for
+// reduced-motion users; only runs while the hero is on screen.
+(() => {
+  const hero = document.querySelector('.hero');
+  if (!hero || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const layers = [...hero.querySelectorAll('[data-parallax]')];
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  let px = 0, py = 0, queued = false, visible = true;
+
+  const paint = () => {
+    queued = false;
+    if (!visible) return;
+    const y = window.scrollY;
+    for (const el of layers) {
+      const speed = parseFloat(el.dataset.parallax) || 0;
+      const depth = parseFloat(el.dataset.depth) || 0;
+      el.style.transform = `translate3d(${(px * depth).toFixed(2)}px, ${(y * speed + py * depth).toFixed(2)}px, 0)`;
+    }
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(paint); } };
+
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) queue(); }).observe(hero);
+  window.addEventListener('scroll', queue, { passive: true });
+  if (finePointer) {
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      px = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      py = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      queue();
+    });
+    hero.addEventListener('pointerleave', () => { px = py = 0; queue(); });
+  }
+  queue();
+})();
