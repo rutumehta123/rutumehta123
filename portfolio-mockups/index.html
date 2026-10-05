@@ -1,0 +1,396 @@
+<title>Cove or Hillside</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Layout: a quiet study sheet; two full-bleed hero frames stacked, each with a short spec caption below. */
+:root{
+  --bg:#f3f1ec; --surface:#fbfaf7; --ink:#1d2326; --muted:#5d666b; --line:#d9d5cc; --accent:#0f7c95;
+  --f-ui:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-th:"Gloock", Georgia, "Times New Roman", serif;
+  --f-jp-d:"Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --f-jp-b:"Zen Kaku Gothic New", "Hiragino Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#14181a; --surface:#1b2023; --ink:#e8ebec; --muted:#9aa4a8; --line:#2c3337; --accent:#5cc6d8; color-scheme:dark } }
+:root[data-theme="dark"]{ --bg:#14181a; --surface:#1b2023; --ink:#e8ebec; --muted:#9aa4a8; --line:#2c3337; --accent:#5cc6d8; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font:16px/1.55 var(--f-ui); padding-inline:clamp(16px,3vw,40px); padding-block:28px 64px}
+.wrap{max-width:1240px; margin:0 auto; display:grid; gap:56px}
+header.intro{display:grid; gap:10px; max-width:68ch}
+.kicker{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:600}
+h1.page{font:600 clamp(26px,3.4vw,38px)/1.15 var(--f-ui); margin:0; text-wrap:balance; letter-spacing:-.01em}
+.intro p{margin:0; color:var(--muted)}
+.jump{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px}
+.jump a{font:600 14px var(--f-ui); color:var(--ink); text-decoration:none; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:var(--surface)}
+.jump a:hover{border-color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+section.option{display:grid; gap:18px; scroll-margin-top:20px}
+.opt-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.opt-head h2{margin:0; font:600 22px/1.2 var(--f-ui)}
+.opt-head span{color:var(--muted); font-size:14px}
+
+/* ---------- hero frame (each scene carries its own fixed palette, by design) ---------- */
+.hero{position:relative; border-radius:20px; overflow:hidden; height:clamp(600px,58vw,740px); isolation:isolate; background:#9fd6f2}
+.hero canvas{position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0}
+.copy{position:absolute; z-index:2; left:clamp(20px,5vw,64px); top:clamp(28px,6vw,72px); max-width:min(520px,82%); display:grid; gap:14px}
+.eyebrow{font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; display:flex; gap:10px; align-items:center}
+.name{font-size:15px; font-weight:600}
+.headline{margin:0; text-wrap:balance}
+.sub{margin:0; font-size:16px; max-width:40ch}
+.ctas{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px}
+.btn{font:600 14px/1 var(--f-ui); padding:12px 18px; border-radius:999px; border:0; cursor:pointer; text-decoration:none}
+.topbar{position:absolute; z-index:3; top:16px; right:16px; display:flex; gap:8px}
+.toggle{font:600 13px/1 var(--f-ui); padding:9px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.55); background:rgba(255,255,255,.62); color:#1d2326; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); cursor:pointer}
+.navpill{position:absolute; z-index:3; left:50%; bottom:16px; transform:translateX(-50%); display:flex; gap:2px; padding:5px; border-radius:999px; background:rgba(255,255,255,.7); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); box-shadow:0 6px 24px rgba(0,0,0,.12); max-width:calc(100% - 24px); overflow-x:auto}
+.navpill span{font:500 13px/1 var(--f-ui); color:#2b3236; padding:10px 13px; border-radius:999px; white-space:nowrap}
+.navpill span.on{background:#fff; font-weight:700}
+.pin{position:absolute; z-index:2; transform:translate(-50%,-100%); display:flex; flex-direction:column; align-items:center; gap:6px; background:none; border:0; padding:0; cursor:pointer; font:600 12px/1 var(--f-ui)}
+.pin .tag{padding:7px 10px; border-radius:999px; white-space:nowrap; box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.pin .dot{width:12px; height:12px; border-radius:50%; border:2.5px solid #fff; box-shadow:0 0 0 0 rgba(255,255,255,.7); animation:ping 2.4s infinite}
+.pin:hover .tag{transform:translateY(-2px)}
+.pin .tag{transition:transform .2s}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,255,255,.75)}70%{box-shadow:0 0 0 10px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.peek{position:absolute; z-index:4; left:50%; bottom:76px; transform:translateX(-50%); max-width:min(360px,calc(100% - 32px)); padding:12px 16px; border-radius:14px; font:500 14px/1.4 var(--f-ui); background:rgba(255,255,255,.92); color:#1d2326; box-shadow:0 10px 30px rgba(0,0,0,.2)}
+
+/* Thai cove type + colors */
+.th .eyebrow{color:#0b4f5e}
+.th .name{color:#0b4f5e}
+.th .headline{font:400 clamp(38px,5.4vw,68px)/1.02 var(--f-th); color:#0d2a33; letter-spacing:-.01em}
+.th .headline em{font-style:normal; color:#e2553f}
+.th .sub{color:#16404a}
+.th .btn.primary{background:#0d2a33; color:#fff}
+.th .btn.ghost{background:rgba(255,255,255,.7); color:#0d2a33}
+.th .pin .tag{background:#fff7ea; color:#0d2a33}
+.th .pin .dot{background:#e2553f}
+.th.dusk .eyebrow,.th.dusk .name{color:#ffd9b0}
+.th.dusk .headline{color:#fff4e6}
+.th.dusk .headline em{color:#ffb36b}
+.th.dusk .sub{color:#f3dcd0}
+.th.dusk .btn.primary{background:#ffb36b; color:#2a1d2e}
+.th.dusk .pin .dot{background:#ffb36b}
+
+/* Japan hillside type + colors */
+.jp .eyebrow{color:#7a2a1f}
+.jp .eyebrow b{font:800 16px var(--f-jp-d); letter-spacing:.2em}
+.jp .name{color:#2a2f45; font-family:var(--f-jp-b)}
+.jp .headline{font:800 clamp(36px,5vw,64px)/1.08 var(--f-jp-d); color:#1f2440; letter-spacing:-.005em}
+.jp .headline em{font-style:normal; color:#c8372d}
+.jp .sub{color:#3b4060; font-family:var(--f-jp-b)}
+.jp .btn{font-family:var(--f-jp-b)}
+.jp .btn.primary{background:#c8372d; color:#fff}
+.jp .btn.ghost{background:rgba(255,255,255,.72); color:#1f2440}
+.jp .pin .tag{background:#fffaf0; color:#1f2440; font-family:var(--f-jp-b); border-radius:6px; border-left:3px solid #c8372d}
+.jp .pin .dot{background:#c8372d}
+.jp.dusk .eyebrow{color:#ffcf8a}
+.jp.dusk .name{color:#e9e6ff}
+.jp.dusk .headline{color:#fbf3e4}
+.jp.dusk .headline em{color:#ff8a6b}
+.jp.dusk .sub{color:#d9d5f0}
+
+/* spec captions under each hero */
+.spec{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px 28px; padding:20px 22px; background:var(--surface); border:1px solid var(--line); border-radius:14px}
+.spec div{min-width:0}
+.spec h3{margin:0 0 4px; font:600 12px/1.3 var(--f-ui); letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.spec p{margin:0; font-size:15px}
+.verdict{padding:22px; border-radius:14px; border:1px solid var(--line); background:var(--surface); display:grid; gap:8px; max-width:78ch}
+.verdict h2{margin:0; font:600 20px var(--f-ui)}
+.verdict p{margin:0; color:var(--muted)}
+.verdict strong{color:var(--ink)}
+
+@media (max-width:640px){
+  .hero{height:880px}
+  .copy{top:64px; max-width:calc(100% - 40px)}
+  .pin{font-size:11px}
+  .pin .tag{padding:6px 8px}
+  .navpill span{padding:9px 10px; font-size:12px}
+  .hero.th .copy,.hero.jp .copy{padding:0}
+}
+@media (prefers-reduced-motion:reduce){ .pin .dot{animation:none} .pin .tag{transition:none} }
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="kicker">Portfolio hero study · two directions</span>
+    <h1 class="page">Two illustrated worlds for your UI/UX portfolio</h1>
+    <p>Both heroes use placeholder copy and project names. The pins show where each piece of your story would live. Try the pins and the day/dusk switch on each scene.</p>
+    <nav class="jump" aria-label="Jump to a direction">
+      <a href="#cove">A · Thai beach cove</a>
+      <a href="#hillside">B · Japanese hillside town</a>
+    </nav>
+  </header>
+
+  <!-- ===================== A: THAI COVE ===================== -->
+  <section class="option" id="cove">
+    <div class="opt-head"><h2>A · Thai beach cove</h2><span>Krabi limestone, longtail boats, lantern dusk</span></div>
+    <div class="hero th" id="heroTh">
+      <canvas aria-hidden="true"></canvas>
+      <div class="topbar"><button class="toggle" type="button" data-toggle>☾ Dusk</button></div>
+      <div class="copy">
+        <div class="eyebrow">Ao Nang, Krabi · 8.03°N 98.82°E</div>
+        <div class="name">Rutu Mehta · UI/UX designer</div>
+        <h2 class="headline">Interfaces that feel like <em>a day off.</em></h2>
+        <p class="sub">I design calm, clear products for busy people. Each boat in the bay is a project. Tap one to sail in.</p>
+        <div class="ctas"><a class="btn primary" href="#cove">See my work →</a><a class="btn ghost" href="#cove">Resume ↗</a></div>
+      </div>
+      <div class="pins"></div>
+      <div class="peek" hidden></div>
+      <div class="navpill" aria-hidden="true"><span class="on">Home</span><span>Work</span><span>Journey</span><span>About</span><span>Contact</span></div>
+    </div>
+    <div class="spec">
+      <div><h3>Work lives in</h3><p>Longtail boats moored in the bay, one per case study.</p></div>
+      <div><h3>Journey</h3><p>Island-hopping: each limestone island is a career stop.</p></div>
+      <div><h3>About and contact</h3><p>The stilt hut is About. A message in a bottle is Contact.</p></div>
+      <div><h3>Type and mood</h3><p>Gloock display with Figtree text. Warm, open, relaxed.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== B: JAPANESE HILLSIDE ===================== -->
+  <section class="option" id="hillside">
+    <div class="opt-head"><h2>B · Japanese hillside town</h2><span>Onomichi slopes, a local train, a torii at the top</span></div>
+    <div class="hero jp" id="heroJp">
+      <canvas aria-hidden="true"></canvas>
+      <div class="topbar"><button class="toggle" type="button" data-toggle>☾ Dusk</button></div>
+      <div class="copy">
+        <div class="eyebrow"><b>尾道</b> Onomichi · 34.41°N 133.20°E</div>
+        <div class="name">Rutu Mehta · UI/UX designer</div>
+        <h2 class="headline">Small details, <em>carefully placed.</em></h2>
+        <p class="sub">I design products where every step earns its place. Walk up the street. Each shop is a project.</p>
+        <div class="ctas"><a class="btn primary" href="#hillside">See my work →</a><a class="btn ghost" href="#hillside">Resume ↗</a></div>
+      </div>
+      <div class="pins"></div>
+      <div class="peek" hidden></div>
+      <div class="navpill" aria-hidden="true"><span class="on">Home</span><span>Work</span><span>Journey</span><span>About</span><span>Contact</span></div>
+    </div>
+    <div class="spec">
+      <div><h3>Work lives in</h3><p>Shops along the slope, each with a noren curtain to step through.</p></div>
+      <div><h3>Journey</h3><p>A local train line. Each station is a career stop, in order.</p></div>
+      <div><h3>About and contact</h3><p>The pagoda tea house is About. Writing an ema plaque at the torii is Contact.</p></div>
+      <div><h3>Type and mood</h3><p>Shippori Mincho display with Zen Kaku Gothic. Precise, considered.</p></div>
+    </div>
+  </section>
+
+  <div class="verdict">
+    <h2>How to choose</h2>
+    <p><strong>The cove</strong> reads warm and approachable, and suits you if you want clients to feel at ease. <strong>The hillside</strong> reads precise and crafted, signals detail-oriented UX work, and sits furthest from the sunny-valley look you reviewed. These are code-drawn sketches for direction only. The real site would use painted artwork in the chosen setting.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function lin(ctx,x0,y0,x1,y1,stops){const g=ctx.createLinearGradient(x0,y0,x1,y1);stops.forEach(([o,c])=>g.addColorStop(o,c));return g}
+function glow(ctx,x,y,r,color){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color);g.addColorStop(1,color.replace(/[\d.]+\)$/,'0)'));ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill()}
+function cloud(ctx,x,y,s,col){ctx.fillStyle=col;[[0,0,1],[.9,-.35,.8],[1.7,0,.9],[.8,.25,.9],[-.8,.15,.7],[2.5,.2,.6]].forEach(([dx,dy,r])=>{ctx.beginPath();ctx.arc(x+dx*s,y+dy*s,r*s,0,7);ctx.fill()})}
+
+/* ================== THAI COVE ================== */
+const TH = {
+  pal:{
+    day:{s0:'#4aa8e0',s1:'#9fd8f2',s2:'#fdebc8',cloud:'rgba(255,255,255,.85)',far:'#8fb9bb',mid:'#4f8a72',rock:'#c7b398',rockD:'#9c8a72',green:'#3d7b4a',green2:'#69a84e',sea0:'#5fd3cf',sea1:'#1593a6',sea2:'#0b6b84',sand:'#f3d9a4',sandD:'#e2bf82',trunk:'#8a6a45',frond:'#2f7a3e',frond2:'#4f9b45',hut:'#a7784a',roof:'#d7b06a',shine:'rgba(255,255,255,.55)'},
+    dusk:{s0:'#24275a',s1:'#8b4c7c',s2:'#f6a15c',cloud:'rgba(255,190,170,.45)',far:'#5a4f78',mid:'#33405a',rock:'#6d5a72',rockD:'#4f4158',green:'#22393a',green2:'#2f4b43',sea0:'#e08a6a',sea1:'#5a4d80',sea2:'#202a52',sand:'#c99f80',sandD:'#a87f68',trunk:'#4a3a3a',frond:'#1e3532',frond2:'#2a4740',hut:'#5a4038',roof:'#86634a',shine:'rgba(255,200,150,.5)'}
+  },
+  // anchors in fractions of w/h — shared by drawing and pins
+  boats:[{x:.40,y:.735,c:'#e2553f',label:'Project 01 · Fintech app'},{x:.56,y:.83,c:'#f2b631',label:'Project 02 · Travel booking'},{x:.70,y:.69,c:'#3fa0e2',label:'Project 03 · Health dashboard'}],
+  hut:{x:.84,y:.62}, island:{x:.6,y:.555}, bottle:{x:.18,y:.92},
+  pins(){return[
+    ...this.boats.map((b,i)=>({x:b.x,y:b.y-.06,t:`Work 0${i+1}`,peek:`${b.label}. Opens the full case study.`})),
+    {x:.6,y:.555-.2,t:'Journey',peek:'Island-hopping timeline: each island is a career stop.'},
+    {x:this.hut.x,y:.40,t:'About me',peek:'The stilt hut: who you are off the clock.'},
+    {x:this.bottle.x,y:.88,t:'Contact',peek:'A message in a bottle: email, LinkedIn, Behance.'}
+  ]},
+  draw(ctx,w,h,t,mode){
+    const P=this.pal[mode], U=Math.max(w,h*.95)/1600, hz=h*.555, R=rng(7);
+    // sky
+    ctx.fillStyle=lin(ctx,0,0,0,hz,[[0,P.s0],[.6,P.s1],[1,P.s2]]);ctx.fillRect(0,0,w,hz+2);
+    if(mode==='dusk'){const r2=rng(3);ctx.fillStyle='rgba(255,255,255,.8)';for(let i=0;i<70;i++){ctx.globalAlpha=.3+.7*Math.abs(Math.sin(t*.8+i));ctx.fillRect(r2()*w,r2()*hz*.55,1.4,1.4)}ctx.globalAlpha=1}
+    // sun
+    if(mode==='day'){glow(ctx,w*.78,h*.17,120*U,'rgba(255,248,215,.9)');ctx.fillStyle='#fffbe8';ctx.beginPath();ctx.arc(w*.78,h*.17,34*U,0,7);ctx.fill()}
+    else{glow(ctx,w*.6,hz,260*U,'rgba(255,170,90,.75)');ctx.save();ctx.beginPath();ctx.rect(0,0,w,hz);ctx.clip();ctx.fillStyle='#ffcf7a';ctx.beginPath();ctx.arc(w*.6,hz+8*U,62*U,0,7);ctx.fill();ctx.restore()}
+    // clouds drift
+    const dr=reduce?0:t*6*U;
+    [[.12,.12,34],[.36,.07,26],[.92,.3,30],[.5,.34,22]].forEach(([x,y,s],i)=>cloud(ctx,((x*w+dr*(1+i*.2))%(w+200*U))-60*U,y*h,s*U,P.cloud));
+    // far karst islands
+    const karst=(x,base,wd,ht,col,cap,seed)=>{const r=rng(seed);ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(x-wd/2,base);
+      const n=7;for(let i=0;i<=n;i++){const fx=x-wd/2+wd*(i/n);const top=base-ht*(0.75+0.25*Math.sin(Math.PI*i/n))-(r()*ht*.08);
+        if(i===0){ctx.lineTo(x-wd*.42,base-ht*.7)}ctx.quadraticCurveTo(fx-wd/n/2,top-ht*.06,fx,top)}
+      ctx.lineTo(x+wd*.44,base-ht*.65);ctx.lineTo(x+wd/2,base);ctx.closePath();ctx.fill();
+      if(cap){ctx.fillStyle=cap;ctx.beginPath();for(let i=0;i<9;i++){const fx=x-wd*.42+wd*.84*(i/8);const fy=base-ht*(0.75+0.25*Math.sin(Math.PI*(i/8)))-2;ctx.moveTo(fx,fy);ctx.arc(fx,fy,wd*.09*(0.7+r()*.6),0,7)}ctx.fill()}};
+    ctx.globalAlpha=.9;
+    [[.30,90,120],[.44,70,90],[.92,120,170],[1.02,80,110],[.70,60,70]].forEach(([x,wd,ht],i)=>karst(w*x,hz+2,wd*U,ht*U,P.far,null,20+i));
+    ctx.globalAlpha=1;
+    // sea
+    ctx.fillStyle=lin(ctx,0,hz,0,h,[[0,P.sea0],[.35,P.sea1],[1,P.sea2]]);ctx.fillRect(0,hz,w,h-hz);
+    // shimmer
+    const r3=rng(11);ctx.strokeStyle=P.shine;ctx.lineWidth=1.6*U+.4;
+    for(let i=0;i<60;i++){const y=hz+8+r3()*(h-hz)*.9;const x=r3()*w;const a=reduce?.5:.5+.5*Math.sin(t*1.6+i);const L=(14+r3()*30)*U*(1+(y-hz)/(h-hz));ctx.globalAlpha=a*.7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+L,y);ctx.stroke()}
+    ctx.globalAlpha=1;
+    // mid island with journey
+    const ix=w*this.island.x, iy=h*this.island.y;
+    karst(ix,iy+4*U,170*U,190*U,P.mid,P.green2,42);
+    ctx.fillStyle='rgba(255,255,255,.35)';ctx.fillRect(ix-90*U,iy+3*U,180*U,2*U);
+    // big cliff right
+    const cx=w*.97, base=h*.74;
+    ctx.fillStyle=P.rock;ctx.beginPath();ctx.moveTo(w*.86,base);ctx.bezierCurveTo(w*.87,h*.45,w*.88,h*.22,w*.93,h*.14);ctx.bezierCurveTo(w*.96,h*.10,w,h*.12,w+10,h*.13);ctx.lineTo(w+10,base);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=P.rockD;ctx.lineWidth=3*U;for(let i=0;i<9;i++){const x=w*.875+i*w*.014;ctx.beginPath();ctx.moveTo(x,h*.2+i*7*U);ctx.bezierCurveTo(x-6*U,h*.4,x+5*U,h*.55,x-3*U,base);ctx.stroke()}
+    const r4=rng(5);ctx.fillStyle=P.green;for(let i=0;i<26;i++){ctx.beginPath();ctx.arc(w*.9+r4()*w*.12,h*.13+r4()*h*.06,(14+r4()*16)*U,0,7);ctx.fill()}
+    ctx.strokeStyle=P.green2;ctx.lineWidth=2*U;for(let i=0;i<10;i++){const x=w*.9+r4()*w*.1;ctx.beginPath();ctx.moveTo(x,h*.17);ctx.quadraticCurveTo(x+4*U,h*.25,x-2*U,h*(.24+r4()*.14));ctx.stroke()}
+    ctx.fillStyle='rgba(255,255,255,.4)';ctx.fillRect(w*.86,base-2*U,w*.14,3*U);
+    // stilt hut
+    const hx=w*this.hut.x, hy=h*this.hut.y, hs=U;
+    ctx.strokeStyle=P.trunk;ctx.lineWidth=4*hs;for(let i=0;i<5;i++){const x=hx-60*hs+i*30*hs;ctx.beginPath();ctx.moveTo(x,hy);ctx.lineTo(x,hy+62*hs);ctx.stroke()}
+    ctx.fillStyle=P.trunk;ctx.fillRect(hx-75*hs,hy-6*hs,150*hs,10*hs);
+    ctx.fillStyle=P.hut;ctx.fillRect(hx-55*hs,hy-62*hs,110*hs,58*hs);
+    ctx.fillStyle=mode==='dusk'?'#ffcf6a':'#4a3424';ctx.fillRect(hx-35*hs,hy-46*hs,24*hs,22*hs);ctx.fillRect(hx+12*hs,hy-46*hs,24*hs,22*hs);
+    if(mode==='dusk')glow(ctx,hx,hy-36*hs,90*hs,'rgba(255,200,110,.45)');
+    ctx.fillStyle=P.roof;ctx.beginPath();ctx.moveTo(hx-82*hs,hy-56*hs);ctx.lineTo(hx,hy-118*hs);ctx.lineTo(hx+82*hs,hy-56*hs);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=1.5*hs;for(let i=1;i<8;i++){ctx.beginPath();ctx.moveTo(hx-82*hs+i*20*hs,hy-56*hs);ctx.lineTo(hx,hy-116*hs);ctx.stroke()}
+    // boats
+    this.boats.forEach((b,i)=>{
+      const bx=w*b.x, by=h*b.y+(reduce?0:Math.sin(t*1.3+i*2)*3*U), s=U*(0.85+(b.y-.6)*1.4), rot=reduce?0:Math.sin(t*1.1+i)*.03;
+      ctx.save();ctx.translate(bx,by);ctx.rotate(rot);
+      ctx.fillStyle='rgba(0,40,60,.25)';ctx.beginPath();ctx.ellipse(0,10*s,95*s,8*s,0,0,7);ctx.fill();
+      ctx.fillStyle=mode==='dusk'?'#3b2a2a':'#6b4428';ctx.beginPath();ctx.moveTo(-90*s,-6*s);ctx.quadraticCurveTo(-10*s,14*s,80*s,-4*s);ctx.quadraticCurveTo(100*s,-40*s,104*s,-58*s);ctx.lineTo(96*s,-56*s);ctx.quadraticCurveTo(84*s,-24*s,70*s,-18*s);ctx.lineTo(-86*s,-18*s);ctx.closePath();ctx.fill();
+      ctx.fillStyle=b.c;ctx.fillRect(-84*s,-16*s,150*s,4*s);
+      // bow garlands
+      ['#ff6b9a','#ffd23f','#5ad17a'].forEach((c,k)=>{ctx.fillStyle=c;ctx.beginPath();ctx.ellipse(100*s-k*3*s,-50*s+k*7*s,5*s,9*s,.4,0,7);ctx.fill()});
+      // canopy
+      ctx.fillStyle=mode==='dusk'?'#5a4a6a':'#f4efe2';ctx.fillRect(-60*s,-46*s,80*s,6*s);ctx.fillStyle='rgba(0,0,0,.25)';ctx.fillRect(-58*s,-40*s,3*s,22*s);ctx.fillRect(16*s,-40*s,3*s,22*s);
+      ctx.restore();
+    });
+    // beach
+    ctx.fillStyle=P.sand;ctx.beginPath();ctx.moveTo(0,h*.8);ctx.bezierCurveTo(w*.12,h*.78,w*.3,h*.86,w*.42,h);ctx.lineTo(0,h);ctx.closePath();ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=3*U;ctx.beginPath();const fo=reduce?0:Math.sin(t*1.4)*4*U;ctx.moveTo(0,h*.8-2*U+fo*.3);ctx.bezierCurveTo(w*.12,h*.78-2*U+fo,w*.3,h*.86-2*U+fo,w*.42,h);ctx.stroke();
+    ctx.fillStyle=P.sandD;ctx.beginPath();ctx.moveTo(0,h*.93);ctx.quadraticCurveTo(w*.15,h*.9,w*.3,h);ctx.lineTo(0,h);ctx.fill();
+    // bottle
+    const bx=w*this.bottle.x, by=h*this.bottle.y;ctx.save();ctx.translate(bx,by);ctx.rotate(-.5);ctx.fillStyle='rgba(120,200,180,.75)';ctx.beginPath();ctx.roundRect(-20*U,-9*U,34*U,18*U,7*U);ctx.fill();ctx.fillRect(12*U,-4*U,12*U,8*U);ctx.fillStyle='#c79a5a';ctx.fillRect(23*U,-4*U,5*U,8*U);ctx.fillStyle='#fff6df';ctx.fillRect(-12*U,-4*U,18*U,8*U);ctx.restore();
+    // palms
+    const palm=(x,y,ht,lean,ph)=>{const sway=reduce?0:Math.sin(t*.9+ph)*.04;const tx=x+lean*ht, ty=y-ht;
+      ctx.strokeStyle=P.trunk;ctx.lineWidth=10*U;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+lean*ht*.2,y-ht*.6,tx,ty);ctx.stroke();
+      for(let k=0;k<8;k++){const a=-Math.PI/2+(k-3.5)*.42+sway*3;const L=(70+((k*37)%30))*U;ctx.strokeStyle=k%2?P.frond:P.frond2;ctx.lineWidth=9*U;ctx.beginPath();ctx.moveTo(tx,ty);ctx.quadraticCurveTo(tx+Math.cos(a)*L*.6,ty+Math.sin(a)*L*.6-18*U,tx+Math.cos(a)*L,ty+Math.sin(a)*L+22*U);ctx.stroke()}
+      ctx.fillStyle='#5a3d22';ctx.beginPath();ctx.arc(tx,ty+6*U,8*U,0,7);ctx.fill();return[tx,ty]};
+    const p1=palm(w*.05,h*.98,250*U,.32,0), p2=palm(w*.26,h*1.0,200*U,-.18,1.3);
+    if(mode==='dusk'){ // lantern string
+      ctx.strokeStyle='rgba(40,20,20,.6)';ctx.lineWidth=1.5*U;ctx.beginPath();ctx.moveTo(p1[0],p1[1]+30*U);ctx.quadraticCurveTo((p1[0]+p2[0])/2,p1[1]+90*U,p2[0],p2[1]+30*U);ctx.stroke();
+      for(let k=1;k<8;k++){const q=k/8;const x=(1-q)*(1-q)*p1[0]+2*q*(1-q)*((p1[0]+p2[0])/2)+q*q*p2[0];const y=(1-q)*(1-q)*(p1[1]+30*U)+2*q*(1-q)*(p1[1]+90*U)+q*q*(p2[1]+30*U);glow(ctx,x,y+6*U,22*U,'rgba(255,190,90,.6)');ctx.fillStyle=['#ffb36b','#ff7a6b','#ffd36b'][k%3];ctx.beginPath();ctx.arc(x,y+6*U,5*U,0,7);ctx.fill()}
+    }
+    // readability scrim behind copy
+    const sc=ctx.createRadialGradient(w*.18,h*.22,0,w*.18,h*.22,Math.max(w*.5,300));sc.addColorStop(0,mode==='day'?'rgba(253,240,214,.55)':'rgba(30,25,60,.5)');sc.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sc;ctx.fillRect(0,0,w,h);
+  }
+};
+
+/* ================== JAPANESE HILLSIDE ================== */
+const JP = {
+  pal:{
+    day:{s0:'#8fc3e6',s1:'#d8ebf2',s2:'#fbf1dc',m1:'#a9bfd6',m2:'#7f9ab8',sea:'#9cc9dc',hill:'#6f9a5e',hill2:'#86ad6b',wall:'#efe4cf',wood:'#5b3d2b',roof:'#465063',roofL:'#5d6a80',win:'#3a2d24',step:'#b8b2a6',stepD:'#9d978c',sakura:'#f4b6c7',sakura2:'#ee9ab2',train:'#f3eee2',trainS:'#2f6db3',rail:'#5b5550',ground:'#9a8b74',star:0},
+    dusk:{s0:'#1f2150',s1:'#5b3f78',s2:'#e9905e',m1:'#4b4775',m2:'#353760',sea:'#6a5a8c',hill:'#2c3b3d',hill2:'#36484a',wall:'#c9b79f',wood:'#2e2220',roof:'#262b3d',roofL:'#353c54',win:'#ffc861',step:'#77707a',stepD:'#5d5764',sakura:'#c78aa6',sakura2:'#a86e8c',train:'#e8dfcf',trainS:'#2f5a9a',rail:'#2a2628',ground:'#4a4048',star:1}
+  },
+  shops:[{x:.47,y:.70,label:'Project 01 · Fintech app'},{x:.62,y:.60,label:'Project 02 · Travel booking'},{x:.77,y:.50,label:'Project 03 · Health dashboard'}],
+  pagoda:{x:.9,y:.33}, torii:{x:.66,y:.43},
+  slopeY(xf){return .9-(xf-.3)*.78}, // hill surface (fraction of h) at x fraction
+  pins(){return[
+    ...this.shops.map((s,i)=>({x:s.x,y:s.y-.085,t:`Work 0${i+1}`,peek:`${s.label}. Step through the noren into the case study.`})),
+    {x:.2,y:.80,t:'Journey',peek:'The local train: each station is a career stop.'},
+    {x:this.pagoda.x,y:this.pagoda.y-.14,t:'About me',peek:'The pagoda tea house: who you are off the clock.'},
+    {x:this.torii.x,y:this.torii.y-.11,t:'Contact',peek:'Write an ema plaque at the torii: email, LinkedIn, Behance.'}
+  ]},
+  draw(ctx,w,h,t,mode){
+    const P=this.pal[mode], U=Math.max(w,h*.95)/1600, R=rng(9);
+    ctx.fillStyle=lin(ctx,0,0,0,h*.6,[[0,P.s0],[.6,P.s1],[1,P.s2]]);ctx.fillRect(0,0,w,h);
+    if(P.star){const r2=rng(4);ctx.fillStyle='#fff';for(let i=0;i<80;i++){ctx.globalAlpha=.3+.7*Math.abs(Math.sin(t*.7+i));ctx.fillRect(r2()*w,r2()*h*.35,1.4,1.4)}ctx.globalAlpha=1;
+      ctx.fillStyle='#fff5d8';ctx.beginPath();ctx.arc(w*.58,h*.12,26*U,0,7);ctx.fill();glow(ctx,w*.58,h*.12,90*U,'rgba(255,240,200,.35)')}
+    else{glow(ctx,w*.58,h*.14,140*U,'rgba(255,250,230,.8)')}
+    // mountains
+    const ridge=(base,amp,col,seed,freq)=>{const r=rng(seed);ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,h);ctx.lineTo(0,base);let y=base;for(let x=0;x<=w+20;x+=20*U){y=base-amp*(0.5+0.5*Math.sin(x/w*freq+seed))-r()*amp*.15;ctx.lineTo(x,y)}ctx.lineTo(w,h);ctx.closePath();ctx.fill()};
+    ridge(h*.44,70*U,P.m1,2,5);ridge(h*.49,50*U,P.m2,5,7);
+    // inland sea strip + islands
+    ctx.fillStyle=P.sea;ctx.fillRect(0,h*.49,w,h*.06);
+    ctx.fillStyle=P.m2;[[.08,40],[.22,26],[.36,34]].forEach(([x,r])=>{ctx.beginPath();ctx.ellipse(w*x,h*.5,r*2*U,r*.6*U,0,Math.PI,0);ctx.fill()});
+    ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1.2;for(let i=0;i<14;i++){const x=(i*137%100)/100*w;ctx.globalAlpha=reduce?.4:.3+.3*Math.sin(t+i);ctx.beginPath();ctx.moveTo(x,h*.515+(i%3)*6*U);ctx.lineTo(x+24*U,h*.515+(i%3)*6*U);ctx.stroke()}ctx.globalAlpha=1;
+    // hill
+    const sy=xf=>h*this.slopeY(xf);
+    ctx.fillStyle=P.hill;ctx.beginPath();ctx.moveTo(w*.18,h);ctx.bezierCurveTo(w*.35,h*.82,w*.6,h*.5,w*.85,h*.26);ctx.quadraticCurveTo(w*.95,h*.18,w+10,h*.2);ctx.lineTo(w+10,h);ctx.closePath();ctx.fill();
+    ctx.fillStyle=P.hill2;ctx.beginPath();ctx.moveTo(w*.3,h);ctx.bezierCurveTo(w*.45,h*.86,w*.7,h*.6,w+10,h*.42);ctx.lineTo(w+10,h);ctx.closePath();ctx.fill();
+    // pagoda
+    const px=w*this.pagoda.x, py=h*this.pagoda.y;
+    for(let k=0;k<3;k++){const ww=(70-k*14)*U, yy=py-k*34*U;ctx.fillStyle=P.wood;ctx.fillRect(px-ww*.35,yy-24*U,ww*.7,24*U);ctx.fillStyle=P.roof;ctx.beginPath();ctx.moveTo(px-ww*.75,yy-20*U);ctx.quadraticCurveTo(px-ww*.4,yy-26*U,px-ww*.3,yy-36*U);ctx.lineTo(px+ww*.3,yy-36*U);ctx.quadraticCurveTo(px+ww*.4,yy-26*U,px+ww*.75,yy-20*U);ctx.closePath();ctx.fill();
+      if(mode==='dusk'){ctx.fillStyle=P.win;ctx.fillRect(px-6*U,yy-18*U,12*U,10*U)}}
+    ctx.strokeStyle=P.roof;ctx.lineWidth=3*U;ctx.beginPath();ctx.moveTo(px,py-100*U);ctx.lineTo(px,py-130*U);ctx.stroke();
+    // stairs from torii down
+    const tx=w*this.torii.x, ty=h*this.torii.y;
+    ctx.fillStyle=P.step;ctx.beginPath();ctx.moveTo(tx-18*U,ty);ctx.lineTo(tx+18*U,ty);ctx.lineTo(w*.6+40*U,h);ctx.lineTo(w*.6-40*U,h);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=P.stepD;ctx.lineWidth=1.5*U;for(let i=1;i<40;i++){const q=i/40;const y=ty+(h-ty)*q;const x=tx+(w*.6-tx)*q;const hw=(18+22*q)*U;ctx.beginPath();ctx.moveTo(x-hw,y);ctx.lineTo(x+hw,y);ctx.stroke()}
+    // houses on slope (background rows)
+    const house=(x,y,s,lit,shop)=>{const ww=70*s,hh=44*s;
+      ctx.fillStyle=P.wall;ctx.fillRect(x-ww/2,y-hh,ww,hh);
+      ctx.fillStyle=P.wood;ctx.fillRect(x-ww/2,y-hh,ww,5*s);ctx.fillRect(x-ww/2,y-hh,4*s,hh);ctx.fillRect(x+ww/2-4*s,y-hh,4*s,hh);
+      ctx.fillStyle=lit?P.win:P.win;ctx.globalAlpha=lit?1:.85;ctx.fillRect(x-ww*.32,y-hh*.7,ww*.24,hh*.32);ctx.fillRect(x+ww*.08,y-hh*.7,ww*.24,hh*.32);ctx.globalAlpha=1;
+      ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=1;for(let k=1;k<4;k++){ctx.beginPath();ctx.moveTo(x-ww*.32+ww*.06*k,y-hh*.7);ctx.lineTo(x-ww*.32+ww*.06*k,y-hh*.38);ctx.stroke();ctx.beginPath();ctx.moveTo(x+ww*.08+ww*.06*k,y-hh*.7);ctx.lineTo(x+ww*.08+ww*.06*k,y-hh*.38);ctx.stroke()}
+      if(lit)glow(ctx,x,y-hh*.55,ww*.7,'rgba(255,200,100,.35)');
+      ctx.fillStyle=P.roof;ctx.beginPath();ctx.moveTo(x-ww*.66,y-hh+2*s);ctx.quadraticCurveTo(x-ww*.5,y-hh-4*s,x-ww*.42,y-hh-22*s);ctx.lineTo(x+ww*.42,y-hh-22*s);ctx.quadraticCurveTo(x+ww*.5,y-hh-4*s,x+ww*.66,y-hh+2*s);ctx.closePath();ctx.fill();
+      ctx.strokeStyle=P.roofL;ctx.lineWidth=1.2*s;for(let k=0;k<9;k++){const xx=x-ww*.5+k*ww/8;ctx.beginPath();ctx.moveTo(xx,y-hh-1*s);ctx.lineTo(xx+(x-xx)*.15,y-hh-20*s);ctx.stroke()}
+      if(shop){ctx.fillStyle=shop;ctx.fillRect(x-ww*.22,y-hh*.36,ww*.44,hh*.36*.8);ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(x-1*s,y-hh*.36,2*s,hh*.29);
+        // chochin lantern
+        const lx=x+ww*.38, ly=y-hh*.55;if(mode==='dusk')glow(ctx,lx,ly,22*s,'rgba(255,140,80,.6)');ctx.fillStyle='#e8503a';ctx.beginPath();ctx.ellipse(lx,ly,6*s,9*s,0,0,7);ctx.fill();ctx.fillStyle='#222';ctx.fillRect(lx-4*s,ly-10*s,8*s,2*s);ctx.fillRect(lx-4*s,ly+8*s,8*s,2*s)}};
+    const r5=rng(21);
+    for(let row=3;row>=0;row--){for(let i=0;i<9;i++){const xf=.36+i*.075+row*.03+(r5()-.5)*.02;if(xf>1.02)continue;const y=sy(xf)-row*.06*h+.05*h;const s=U*(1-row*.12);
+      if(this.shops.some(sh=>Math.abs(sh.x-xf)<.05&&row===0))continue;if(Math.abs(xf-this.torii.x)<.04)continue;if(y<h*.2)continue;
+      house(w*xf,y,s,mode==='dusk'&&r5()>.35,null)}}
+    // torii
+    ctx.fillStyle='#c8372d';const tw=70*U, th=70*U;ctx.fillRect(tx-tw*.38,ty-th,8*U,th);ctx.fillRect(tx+tw*.38-8*U,ty-th,8*U,th);ctx.fillRect(tx-tw*.5,ty-th*.78,tw,7*U);
+    ctx.fillStyle='#1f1a1a';ctx.beginPath();ctx.moveTo(tx-tw*.66,ty-th*1.02);ctx.quadraticCurveTo(tx,ty-th*.92,tx+tw*.66,ty-th*1.02);ctx.lineTo(tx+tw*.6,ty-th*1.12);ctx.quadraticCurveTo(tx,ty-th*1.04,tx-tw*.6,ty-th*1.12);ctx.closePath();ctx.fill();
+    // project shops (front, larger)
+    const colors=['#2c4f8a','#7a2a1f','#2f6b4f'];
+    this.shops.forEach((sp,i)=>house(w*sp.x,h*sp.y,U*1.35,mode==='dusk',colors[i]));
+    // cherry trees
+    const tree=(x,y,s,seed)=>{const r=rng(seed);ctx.strokeStyle=P.wood;ctx.lineWidth=6*s;ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+6*s,y-30*s,x-4*s,y-56*s);ctx.stroke();
+      for(let k=0;k<16;k++){ctx.fillStyle=k%2?P.sakura:P.sakura2;ctx.beginPath();ctx.arc(x+(r()-.5)*90*s,y-60*s+(r()-.5)*44*s,(12+r()*12)*s,0,7);ctx.fill()}};
+    tree(w*.53,h*.66,U*1.1,3);tree(w*.71,h*.53,U,8);tree(w*.86,h*.42,U*.9,12);tree(w*.40,h*.8,U*1.2,15);
+    // rail + train
+    const ry=h*.86;ctx.fillStyle=P.ground;ctx.fillRect(0,ry+6*U,w,h-ry);
+    ctx.strokeStyle=P.rail;ctx.lineWidth=3*U;ctx.beginPath();ctx.moveTo(0,ry);ctx.lineTo(w,ry);ctx.stroke();ctx.beginPath();ctx.moveTo(0,ry+6*U);ctx.lineTo(w,ry+6*U);ctx.stroke();
+    ctx.lineWidth=1;for(let x=0;x<w;x+=14*U){ctx.beginPath();ctx.moveTo(x,ry-2*U);ctx.lineTo(x,ry+9*U);ctx.stroke()}
+    // overhead wire posts
+    ctx.strokeStyle=P.rail;ctx.lineWidth=2*U;for(let x=w*.05;x<w;x+=w*.22){ctx.beginPath();ctx.moveTo(x,ry);ctx.lineTo(x,ry-90*U);ctx.lineTo(x+16*U,ry-90*U);ctx.stroke()}
+    ctx.beginPath();ctx.moveTo(0,ry-84*U);ctx.lineTo(w,ry-84*U);ctx.stroke();
+    const cycle=w+420*U, trainX=reduce?w*.08:((t*55*U)%cycle)-380*U;
+    for(let c=0;c<2;c++){const x=trainX+c*178*U, y=ry-58*U;ctx.fillStyle=P.train;ctx.beginPath();ctx.roundRect(x,y,170*U,54*U,10*U);ctx.fill();
+      ctx.fillStyle=P.trainS;ctx.fillRect(x,y+38*U,170*U,7*U);
+      for(let k=0;k<5;k++){ctx.fillStyle=mode==='dusk'?'#ffe4a0':'#53708f';ctx.fillRect(x+12*U+k*31*U,y+9*U,22*U,20*U)}
+      ctx.fillStyle='#222';ctx.beginPath();ctx.arc(x+30*U,y+56*U,7*U,0,7);ctx.arc(x+140*U,y+56*U,7*U,0,7);ctx.fill();
+      ctx.strokeStyle=P.rail;ctx.lineWidth=2*U;ctx.beginPath();ctx.moveTo(x+80*U,y);ctx.lineTo(x+70*U,ry-84*U);ctx.stroke()}
+    // vending machine + crossing sign
+    const vx=w*.13, vy=h-14*U;if(mode==='dusk')glow(ctx,vx,vy-40*U,80*U,'rgba(180,230,255,.45)');
+    ctx.fillStyle='#d8e4ef';ctx.fillRect(vx-20*U,vy-70*U,40*U,70*U);ctx.fillStyle='#e8503a';ctx.fillRect(vx-20*U,vy-70*U,40*U,10*U);
+    for(let k=0;k<3;k++)for(let j=0;j<4;j++){ctx.fillStyle=['#4aa3df','#f2b631','#5ad17a','#e8503a'][(k+j)%4];ctx.fillRect(vx-16*U+j*9*U,vy-56*U+k*12*U,6*U,9*U)}
+    const kx=w*.3;ctx.fillStyle='#222';ctx.fillRect(kx,ry-80*U,4*U,80*U);ctx.save();ctx.translate(kx+2*U,ry-70*U);ctx.rotate(.785);ctx.fillStyle='#f2c230';ctx.fillRect(-20*U,-4*U,40*U,8*U);ctx.rotate(-1.57);ctx.fillRect(-20*U,-4*U,40*U,8*U);ctx.restore();
+    // falling petals
+    if(!reduce||true){const r6=rng(31);ctx.fillStyle=P.sakura;for(let i=0;i<46;i++){const sx=r6()*w, sp=.4+r6()*.8, ph=r6()*10;const y=reduce?r6()*h:((ph*80+t*28*sp*U*1.5)%(h*1.1))-20;const x=sx+Math.sin(t*.8+ph)*22*U-(reduce?0:(t*10*U)%60);ctx.globalAlpha=.85;ctx.beginPath();ctx.ellipse(x,y,4*U+1,2.4*U+.6,ph+t*(reduce?0:.8),0,7);ctx.fill()}ctx.globalAlpha=1}
+    // readability scrim
+    const sc=ctx.createRadialGradient(w*.18,h*.22,0,w*.18,h*.22,Math.max(w*.5,300));sc.addColorStop(0,mode==='day'?'rgba(251,246,233,.6)':'rgba(25,22,60,.55)');sc.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=sc;ctx.fillRect(0,0,w,h);
+  }
+};
+
+/* ================== mount ================== */
+function mount(id,scene){
+  const hero=document.getElementById(id), cv=hero.querySelector('canvas'), ctx=cv.getContext('2d');
+  const pinsEl=hero.querySelector('.pins'), peek=hero.querySelector('.peek'), tg=hero.querySelector('[data-toggle]');
+  let mode='day', w=0, h=0, off=0, visible=true, t0=performance.now();
+  const pinEls=[];
+  scene.pins().forEach(p=>{const b=document.createElement('button');b.type='button';b.className='pin';b.style.left=(p.x*100)+'%';b.style.top=(p.y*100)+'%';
+    b.innerHTML=`<span class="tag">${p.t}</span><span class="dot"></span>`;b.setAttribute('aria-label',`${p.t}: ${p.peek}`);
+    b.addEventListener('click',()=>{peek.textContent=p.peek;peek.hidden=false;clearTimeout(b._t);b._t=setTimeout(()=>peek.hidden=true,3200)});pinsEl.appendChild(b);pinEls.push([b,p])});
+  function placePins(){pinEls.forEach(([b,p])=>{b.style.top=((off+p.y*(1-off))*100)+'%'})}
+  function size(){const r=hero.getBoundingClientRect(), d=Math.min(devicePixelRatio||1,2);w=r.width;h=r.height;off=w<640?.38:0;placePins();cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);frame()}
+  function frame(){const t=(performance.now()-t0)/1000;ctx.clearRect(0,0,w,h);if(off){const P=scene.pal[mode];ctx.fillStyle=lin(ctx,0,0,0,h*off+2,[[0,P.s0],[1,P.s0]]);ctx.fillRect(0,0,w,h*off+2);ctx.save();ctx.translate(0,h*off);scene.draw(ctx,w,h*(1-off),t,mode);ctx.restore()}else scene.draw(ctx,w,h,t,mode)}
+  function loop(){if(visible&&!reduce)frame();requestAnimationFrame(loop)}
+  tg.addEventListener('click',()=>{mode=mode==='day'?'dusk':'day';hero.classList.toggle('dusk',mode==='dusk');tg.textContent=mode==='day'?'☾ Dusk':'☀ Day';frame()});
+  new ResizeObserver(size).observe(hero);
+  if('IntersectionObserver' in window)new IntersectionObserver(e=>{visible=e[0].isIntersecting}).observe(hero);
+  size(); if(!reduce)requestAnimationFrame(loop);
+}
+mount('heroTh',TH); mount('heroJp',JP);
+})();
+</script>
